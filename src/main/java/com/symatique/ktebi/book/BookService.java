@@ -211,11 +211,17 @@ public class BookService {
 
     public void uploadBookCoverPicture(MultipartFile file, Authentication connectedUser, Long bookId) {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new EntityNotFoundException("No book found with ID:: " + bookId));
-        User user = ((User) connectedUser.getPrincipal());
-        var bookcover = fileStorageService.saveFile(file, bookId, user.getId());
-        book.setBookCover(bookcover);
-        bookRepository.save(book);
+                .orElseThrow(() -> new EntityNotFoundException("No book found with ID: " + bookId));
 
+        User user = (User) connectedUser.getPrincipal();
+
+        if (file != null && !file.isEmpty()) {
+            String bookCover = fileStorageService.saveFile(file, bookId, user.getId());
+            book.setBookCover(bookCover);
+        }
+
+        bookRepository.save(book);
     }
+
+
 }

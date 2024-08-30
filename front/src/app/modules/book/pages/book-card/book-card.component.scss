@@ -1,0 +1,78 @@
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensure the card expands to the full height of its container */
+  min-height: 400px; /* Set a minimum height to ensure consistency */
+  min-width: 275px; /* Set a minimum width to ensure consistency */
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-body {
+  flex: 1; /* Allows the card body to expand and take up available space */
+  display: flex;
+  flex-direction: column;
+}
+
+.synopsis-container {
+  flex-grow: 1; /* Allows synopsis container to take remaining space */
+  max-height: 80px; /* Adjust this height as needed */
+  overflow: hidden;
+  position: relative;
+}
+
+.synopsis-container:hover {
+  overflow-y: auto;
+}
+
+.synopsis-text {
+  max-height: 80px; /* Matches the container's max height */
+  overflow: hidden;
+  padding-right: 10px; /* Optional: to provide some padding for the scrollbar */
+}
+
+.icon {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.icon img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.card-footer {
+  display: flex;
+  flex-wrap: wrap; /* Allows the items to wrap to the next line if there's not enough space */
+  align-items: center;
+  gap: 10px; /* Space between footer items */
+  padding: 10px; /* Adjust the padding as needed */
+  background-color: #f8f9fa; /* Optional: add a background color for better visibility */
+}
+
+.card-footer .footer-icons i {
+  font-size: 1.2rem; /* Adjust icon size if needed */
+  cursor: pointer;
+  padding: 5px; /* Add padding for better clickability */
+}
+
+.card-footer .footer-icons i:hover {
+  color: #007bff; /* Optional: change color on hover */
+}
+/* Add this to your stylesheet (e.g., styles.css) */
+
+/* Border styles for shareable and archived books */
+.border-shareable {
+  border: 3px solid green; /* Adjust the border color and size as needed */
+}
+
+.border-archived {
+  border: 3px solid orange; /* Adjust the border color and size as needed */
+}

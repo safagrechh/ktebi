@@ -1,0 +1,28 @@
+/* account-activation.component.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white ;
+}
+
+.activation-message, .activation-error {
+  text-align: center;
+}
+
+.activation-error {
+  color: red;
+}
+.activation-code-input {
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+

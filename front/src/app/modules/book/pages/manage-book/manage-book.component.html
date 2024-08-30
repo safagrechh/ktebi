@@ -1,0 +1,90 @@
+
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="alert alert-danger mt-2" role="alert" *ngIf="errorMsg.length">
+        <p class="p-0 m-0" *ngFor="let msg of errorMsg">{{msg}}</p>
+      </div>  <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<div class="container mt--8 pb-5">
+  <!-- Table -->
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-header bg-transparent pb-5">
+          <div class="text-muted text-center mt-2 mb-4"><small>Load a cover for the book</small></div>
+          <div class="text-center">
+            <img class="rounded-1" width="50%" height="50%" [src]="selectedPicture || 'assets/img/theme/team-4-800x800.jpg'" alt="">
+            <div class="mt-2">
+              <input
+                (change)="onFileSelected($event)"
+                class="form-control"
+                type="file"
+                name="file"
+                id="formFile"
+                accept="image/*"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="text-center text-muted mb-4">
+            <small>fill the information</small>
+          </div>
+          <form role="form">
+            <div class="form-group">
+              <div class="input-group input-group-alternative mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input [(ngModel)]="bookRequest.title"  class="form-control" placeholder="Title" type="text" name="title">
+              </div>
+              <div class="input-group input-group-alternative mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input  [(ngModel)]="bookRequest.authorName" class="form-control" placeholder="AuthorName" type="text" name="authorName">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group input-group-alternative mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                </div>
+                <input [(ngModel)]="bookRequest.isbn" class="form-control" placeholder="isbn" type="text" name="isbn">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-align-center"></i></span>
+                </div>
+                <textarea  [(ngModel)]="bookRequest.synopsis" class="form-control" placeholder="synopsis" type="text" name="synopsis"></textarea>
+              </div>
+            </div>
+            <div class="row my-4">
+              <div class="col-12">
+                <div class="custom-control custom-control-alternative custom-checkbox">
+                  <input [(ngModel)]="bookRequest.shareable" class="custom-control-input" id="customCheckRegister" type="checkbox" name="shareable">
+                  <label class="custom-control-label" for="customCheckRegister">
+                    <span class="text-muted">share the book </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2 col-12">
+              <button (click)="saveBook()" type="submit" class="btn btn-outline-primary">
+                <i class="fas fa-save"></i>&nbsp;Save
+              </button>
+              <a routerLink="/book/my-books" type="submit" class="btn btn-link btn text-danger">
+                <i class="fas fa-times"></i>&nbsp;Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

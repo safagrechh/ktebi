@@ -1,0 +1,75 @@
+
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<div class="container mt--8 pb-5">
+  <div class="row mt-5">
+    <div class="col-xl-8 mb-5 mb-xl-0">
+
+<div class="table-responsive">
+  <table class="table align-items-center table-dark table-flush">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Book</th>
+      <th scope="col">Title</th>
+      <th scope="col">ISBn</th>
+      <th scope="col">Author</th>
+      <th scope="col">Rate</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr  *ngFor="let book of borrowedBooks.content; let index = index">
+      <th scope="row">
+        {{index + 1}}
+      </th>
+      <td>
+       {{ book.title }}
+      </td>
+      <td>
+            <span class="badge badge-dot mr-4">
+              <i class="bg-warning"></i> {{ book.isbn}}
+            </span>
+      </td>
+      <td>
+        <div class="avatar-group">
+          <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+            <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
+          </a>
+          {{ book.authorName }}
+        </div>
+      </td>
+      <td>
+        <div class="d-flex align-items-center">
+          <span class="mr-2">{{ book.rate }}</span>
+          <div>
+            <div class="progress">
+              <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td class="text-right">
+        <div ngbDropdown placement="bottom-right">
+          <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
+            <i class="fas fa-ellipsis-v"></i>
+          </a>
+          <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+</div>
+  </div>
+</div>
