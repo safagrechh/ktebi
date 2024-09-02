@@ -13,16 +13,17 @@ import {BorrowedBookResponse} from "../../../../services/models/borrowed-book-re
 })
 export class BorrowedBookListComponent implements OnInit {
   page = 0;
-  size = 5;
+  size = 10;
   pages: any = [];
   borrowedBooks: PageResponseBorrowedBookResponse = {};
-  selectedBook: BookResponse | undefined = undefined;
+  private _selectedBook: BookResponse | undefined;
   feedbackRequest: FeedbackRequest = {bookId: 0, comment: '', note: 0};
+
   constructor(
     private bookService: BookService,
     private feedbackService: FeedbackService
-  ) {
-  }
+  ) {}
+
   ngOnInit(): void {
     this.findAllBorrowedBooks();
   }
@@ -41,60 +42,53 @@ export class BorrowedBookListComponent implements OnInit {
     });
   }
 
-  gotToPage(page: number) {
-    this.page = page;
-    this.findAllBorrowedBooks();
-  }
-
-  goToFirstPage() {
-    this.page = 0;
-    this.findAllBorrowedBooks();
-  }
-
-  goToPreviousPage() {
-    this.page --;
-    this.findAllBorrowedBooks();
-  }
-
-  goToLastPage() {
-    this.page = this.borrowedBooks.totalPages as number - 1;
-    this.findAllBorrowedBooks();
-  }
-
-  goToNextPage() {
-    this.page++;
-    this.findAllBorrowedBooks();
-  }
-
-  get isLastPage() {
-    return this.page === this.borrowedBooks.totalPages as number - 1;
-  }
-
-  returnBorrowedBook(book: BorrowedBookResponse) {
-    this.selectedBook = book;
-    this.feedbackRequest.bookId = book.id as number;
+  returnBorrowedBook(borrowedBook: BorrowedBookResponse) {
+    this.bookService.findBookById({  'book-id': borrowedBook.id as number
+    }).subscribe({
+      next: (book: BookResponse) => {
+        this._selectedBook = book;
+        this.feedbackRequest.bookId = book.id as number;
+      },
+      error: () => {
+        console.error('Failed to fetch the book details');
+      }
+    });
   }
 
   returnBook(withFeedback: boolean) {
     this.bookService.returnBorrowBook({
-      'book-id': this.selectedBook?.id as number
+      'book-id': this._selectedBook?.id as number
     }).subscribe({
       next: () => {
         if (withFeedback) {
           this.giveFeedback();
+          window.location.reload(); // Forces a full page reload
+
         }
-        this.selectedBook = undefined;
-        this.findAllBorrowedBooks();
+        this._selectedBook = undefined;
+        window.location.reload(); // Forces a full page reload
+
       }
     });
+
   }
 
   private giveFeedback() {
     this.feedbackService.saveFeedback({
       body: this.feedbackRequest
     }).subscribe({
-      next: () => {
-      }
+      next: () => {}
     });
+  }
+
+  get bookCover(): string {
+    if (this._selectedBook?.cover) {
+      return 'data:image/jpg;base64,' + this._selectedBook.cover;
+    }
+    return 'assets/img/theme/team-4-800x800.jpg'; // Default image path
+  }
+
+  get selectedBook(): BookResponse | undefined {
+    return this._selectedBook;
   }
 }

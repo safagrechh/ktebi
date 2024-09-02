@@ -34,9 +34,10 @@ export class NavbarComponent implements OnInit {
   }
   logout() {
     localStorage.removeItem('token');
-    this.router.navigate(['login']).then(() => {
-      window.location.reload(); // Forces a full page reload
+    this.router.navigate(['auth/login']).then(() => {
     });
+    window.location.reload(); // Forces a full page reload
+
   }
 
 
