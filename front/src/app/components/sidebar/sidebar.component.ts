@@ -18,8 +18,8 @@ export const ROUTES: RouteInfo[] = [
   { path: '/book/my-returned-books', title: 'Returned Books ',  icon:'ni-archive-2 text-red', class: '' },
   { path: '/book/my-borrowed-books', title: 'Borrowed Books ',  icon:'ni-folder-17 text-red', class: '' },
 
-  { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
+  { path: '/auth/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
+    { path: '/auth/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
 ];
 
 @Component({
@@ -40,5 +40,6 @@ export class SidebarComponent implements OnInit {
       this.isCollapsed = true;
       window.location.reload();
    });
+
   }
 }

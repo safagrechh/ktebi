@@ -1,1 +1,87 @@
-<p>returned-books works!</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div
+        *ngIf="message"
+        class="alert "
+        [class.alert-danger]="level==='error'"
+        [class.alert-success]="level==='success'"
+        role="alert"
+      >
+        <p>{{message}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt--8 pb-5">
+  <div class="row mt-5">
+<div class="col-xl-8 mb-5 mb-xl-0">
+  <div class="card shadow">
+    <div class="card-header border-0">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="mb-0">Returned Books</h3>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">ISBN</th>
+          <th scope="col">Author</th>
+          <th scope="col">Rate</th>
+          <th scope="col"><i class="ni ni-settings-gear-65"></i></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let book of returnedBooks.content; let index = index">
+          <th scope="row">{{index + 1}}</th>
+          <td>{{ book.title }}</td>
+          <td>
+              <span class="badge badge-dot mr-4">
+                <i class="bg-warning"></i> {{ book.isbn }}
+              </span>
+          </td>
+          <td>
+            <div class="avatar-group">
+              <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="{{ book.authorName }}">
+                <img alt="Image placeholder" src="assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
+              </a>
+              {{ book.authorName }}
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center">
+
+              <div class="progress " style="width: 100px; ">
+                <div
+                  class="progress-bar bg-warning"
+                  role="progressbar"
+                  [style.width]="(book.rate / 5) * 100 + '%'"
+                  aria-valuenow="{{ book.rate }}"
+                  aria-valuemin="0"
+                  aria-valuemax="5">
+                </div>
+              </div>
+              <span class="mr-2">  {{ book.rate }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              <i *ngIf="book.returned" class="ni ni-send text-primary" appTooltip="Returned"></i>
+              <i *ngIf="!book.returned"  class="ni ni-send text-success" appTooltip="Return"></i>
+              <i class="ni ni-check-bold text-primary" (click)="approveBookReturn(book)" [class.text-success]="book.returnApproved"></i>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>

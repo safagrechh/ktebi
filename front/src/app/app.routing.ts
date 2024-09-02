@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import {authGuard} from "./services/guard/auth.guard";
 
 const routes: Routes =[
   {
@@ -15,6 +16,8 @@ const routes: Routes =[
   {
     path: 'book',
     loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule),
+    canActivate : [authGuard]
+
   },
   {
     path: '',
@@ -22,7 +25,8 @@ const routes: Routes =[
     children: [
       {
         path: '',
-        loadChildren: () => import('src/app/layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
+        loadChildren: () => import('src/app/layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule),
+        canActivate : [authGuard]
       }
     ]
   },
