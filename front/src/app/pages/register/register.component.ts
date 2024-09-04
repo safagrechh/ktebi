@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
     })
       .subscribe({
         next: () => {
-          this.router.navigate(['activate-account']);
+          this.router.navigate(['/auth/activate-account']);
         },
         error: (err) => {
           this.errorMsg = err.error.validationErrors || ['An unexpected error occurred. Please try again.'];

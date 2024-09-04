@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
 import {BookService} from "../../../../services/services/book.service";
 import {Router} from "@angular/router";
@@ -21,7 +21,9 @@ export class MyBooksComponent implements OnInit{
   level: 'success' |'error' = 'success';
   constructor(
     private bookService: BookService,
-    private router: Router
+    private router: Router ,
+    private cdr: ChangeDetectorRef
+
   ) {
   }
 
@@ -30,19 +32,25 @@ export class MyBooksComponent implements OnInit{
   }
 
   private findAllBooks() {
+    this.bookResponse.content = [];
+
     this.bookService.findAllBooksByOwner({
       page: this.page,
       size: this.size
-    })
-      .subscribe({
-        next: (books) => {
+    }).subscribe({
+      next: (books) => {
+        if (books && books.content) {
           this.bookResponse = books;
-          this.pages = Array(this.bookResponse.totalPages)
-            .fill(0)
-            .map((x, i) => i);
-        }
-      });
+          this.pages = Array(this.bookResponse.totalPages).fill(0).map((x, i) => i);
 
+          // Manually trigger change detection to ensure the UI updates
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching books:', err);
+      }
+    });
   }
 
   gotToPage(page: number) {

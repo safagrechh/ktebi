@@ -1,0 +1,44 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+  </div>
+</div>
+
+  <div class="pr-2 pl-2 mb-4 mt--8" >
+    <div class="p-3 card shadow mb-3">
+      <div class="d-flex gap-2">
+        <div class="col-3">
+          <img class="rounded-1" width="100%" height="100%" [src]=" 'data:image/jpg;base64,' + book.cover || 'https://source.unsplash.com/user/c_v_r/1900x800'" alt="">
+        </div>
+        <div class="col-9">
+          <h2><i class="ni ni-book-bookmark"></i>&nbsp;{{ book.title }}</h2>
+          <h4><i class="ni ni-single-02"></i>&nbsp;{{ book.authorName }}</h4>
+          <h5><i class="fas fa-code"></i>&nbsp;{{ book.isbn }}</h5>
+          <h6 class="card-subtitle fs-6 text-secondary"><i class="fas fa-user"></i>&nbsp;{{ book.owner }}</h6>
+          <div class="d-flex gap-2">
+            <app-rating [rating]="book.rate || 0"></app-rating>
+            <span> &nbsp;{{ book.rate }} </span> &nbsp;
+            ({{feedbacks?.totalElements || 0}} feedbacks)
+          </div>
+          <hr>
+          <p>
+            {{ book.synopsis }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column justify-content-end">
+      <div class="card shadow p-2" *ngFor="let feedback of feedbacks.content">
+        <div class="d-flex gap-2">
+          <span class="avatar avatar-sm rounded-circle mr-2">
+              <img alt="Image placeholder" src="assets/img/theme/1733823.png">
+            </span>
+          <app-rating class="mt-1" [rating]="feedback.note || 0"></app-rating>
+          <strong class="mt-1">&nbsp;{{feedback.note}}</strong>
+        </div>
+        <p> &nbsp; &nbsp; &nbsp;{{feedback.comment}}</p>
+      </div>
+    </div>
+  </div>

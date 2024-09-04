@@ -8,18 +8,13 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'ni-pin-3 text-orange', class: '' },
-    { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
+
     { path: '/book', title: 'Books',  icon:'ni-books text-red', class: '' },
   { path: '/book/my-books', title: 'My Books ',  icon:'ni-book-bookmark text-red', class: '' },
   { path: '/book/my-waiting-list', title: 'My Waiting List',  icon:'ni-favourite-28 text-red', class: '' },
   { path: '/book/my-returned-books', title: 'Returned Books ',  icon:'ni-archive-2 text-red', class: '' },
   { path: '/book/my-borrowed-books', title: 'Borrowed Books ',  icon:'ni-folder-17 text-red', class: '' },
 
-  { path: '/auth/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { path: '/auth/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
 ];
 
 @Component({
@@ -31,15 +26,29 @@ export class SidebarComponent implements OnInit {
 
   public menuItems: any[];
   public isCollapsed = true;
+  public userName: string | null = null; // To hold the user name
 
   constructor(private router: Router) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
-    this.router.events.subscribe((event) => {
-      this.isCollapsed = true;
-      window.location.reload();
-   });
 
+    // Fetch user information from localStorage
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.userName = JSON.parse(user).name; // Adjust this according to the structure of your user object
+    }
+
+    this.router.events.subscribe(() => {
+      this.isCollapsed = true;
+    });
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user'); // Also remove user info on logout
+    this.router.navigate(['auth/login']).then(() => {
+      window.location.reload(); // Forces a full page reload
+    });
   }
 }

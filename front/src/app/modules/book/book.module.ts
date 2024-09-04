@@ -16,6 +16,7 @@ import {MyBooksComponent} from "./pages/my-books/my-books.component";
 import {ReturnedBooksComponent} from "./pages/returned-books/returned-books.component";
 import {ManageBookComponent} from "./pages/manage-book/manage-book.component";
 import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
+import {BookDetailsComponent} from "./pages/book-details/book-details.component";
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
     MyBooksComponent,
     ReturnedBooksComponent,
     BorrowedBookListComponent,
-    ManageBookComponent
+    ManageBookComponent ,
+    BookDetailsComponent
   ],
     imports: [
         CommonModule,

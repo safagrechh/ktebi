@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {BookService} from "../../../../services/services/book.service";
 import {Router} from "@angular/router";
 import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
@@ -9,7 +9,7 @@ import {BookResponse} from "../../../../services/models/book-response";
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss']
 })
-export class BookListComponent {
+export class BookListComponent implements OnInit{
 
   bookResponse: PageResponseBookResponse = {};
 
@@ -20,7 +20,8 @@ export class BookListComponent {
   level: 'success' |'error' = 'success';
   constructor(
     private bookService: BookService,
-    private router: Router
+    private router: Router ,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -29,19 +30,25 @@ export class BookListComponent {
   }
 
   private findAllBooks() {
+    this.bookResponse.content = [];
+
     this.bookService.findAllBooks({
       page: this.page,
       size: this.size
-    })
-      .subscribe({
-        next: (books) => {
+    }).subscribe({
+      next: (books) => {
+        if (books && books.content) {
           this.bookResponse = books;
-          this.pages = Array(this.bookResponse.totalPages)
-            .fill(0)
-            .map((x, i) => i);
-        }
-      });
+          this.pages = Array(this.bookResponse.totalPages).fill(0).map((x, i) => i);
 
+          // Manually trigger change detection to ensure the UI updates
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching books:', err);
+      }
+    });
   }
 
   gotToPage(page: number) {
@@ -83,6 +90,6 @@ export class BookListComponent {
   }
 
   displayBookDetails(book: BookResponse) {
-    this.router.navigate(['books', 'details', book.id]);
+    this.router.navigate(['book', 'details', book.id]);
   }
 }

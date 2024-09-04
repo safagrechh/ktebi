@@ -12,12 +12,20 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
+  public userName: string | null = null; // To hold the user name
+
   constructor(location: Location,  private element: ElementRef, private router: Router) {
     this.location = location;
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+    // Fetch user information from localStorage
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.userName = JSON.parse(user).name; // Adjust this according to the structure of your user object
+    }
+
   }
   getTitle(){
     var titlee = this.location.prepareExternalUrl(this.location.path());
