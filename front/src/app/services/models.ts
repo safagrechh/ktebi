@@ -11,3 +11,4 @@ export { PageResponseBookResponse } from './models/page-response-book-response';
 export { PageResponseBorrowedBookResponse } from './models/page-response-borrowed-book-response';
 export { PageResponseFeedbackResponse } from './models/page-response-feedback-response';
 export { RegistrationRequest } from './models/registration-request';
+export { UserResponse } from './models/user-response';

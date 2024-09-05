@@ -2,6 +2,9 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
+import {BookService} from "../../services/services/book.service";
+import {AuthenticationService} from "../../services/services/authentication.service";
+import {UserResponse} from "../../services/models/user-response";
 
 @Component({
   selector: 'app-navbar',
@@ -12,20 +15,17 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
-  public userName: string | null = null; // To hold the user name
+  public userr: UserResponse = {};
 
-  constructor(location: Location,  private element: ElementRef, private router: Router) {
+  constructor(location: Location,  private element: ElementRef, private router: Router , private authservice: AuthenticationService) {
     this.location = location;
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     // Fetch user information from localStorage
-    const user = localStorage.getItem('user');
-    if (user) {
-      this.userName = JSON.parse(user).name; // Adjust this according to the structure of your user object
-    }
 
+    this.fetchUser();
   }
   getTitle(){
     var titlee = this.location.prepareExternalUrl(this.location.path());
@@ -49,5 +49,15 @@ export class NavbarComponent implements OnInit {
   }
 
 
-
+   fetchUser() {
+    this.authservice.getCurrentUser().subscribe({
+      next: (response) => {
+        this.userr= response;
+        console.log(response)// Update with actual response structure
+      },
+      error: (err) => {
+        console.error('Error fetching user information', err);
+      }
+    });
+  }
 }

@@ -14,6 +14,8 @@ import { Authenticate$Params } from '../fn/authentication/authenticate';
 import { AuthentificationResponse } from '../models/authentification-response';
 import { confirm } from '../fn/authentication/confirm';
 import { Confirm$Params } from '../fn/authentication/confirm';
+import { getCurrentUser } from '../fn/authentication/get-current-user';
+import { GetCurrentUser$Params } from '../fn/authentication/get-current-user';
 import { register } from '../fn/authentication/register';
 import { Register$Params } from '../fn/authentication/register';
 
@@ -74,6 +76,43 @@ export class AuthenticationService extends BaseService {
   authenticate(params: Authenticate$Params, context?: HttpContext): Observable<AuthentificationResponse> {
     return this.authenticate$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthentificationResponse>): AuthentificationResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `getCurrentUser()` */
+  static readonly GetCurrentUserPath = '/auth/user';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getCurrentUser()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getCurrentUser$Response(params?: GetCurrentUser$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+[key: string]: {
+};
+}>> {
+    return getCurrentUser(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getCurrentUser$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getCurrentUser(params?: GetCurrentUser$Params, context?: HttpContext): Observable<{
+[key: string]: {
+};
+}> {
+    return this.getCurrentUser$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+[key: string]: {
+};
+}>): {
+[key: string]: {
+};
+} => r.body)
     );
   }
 
